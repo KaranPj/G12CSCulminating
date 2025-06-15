@@ -14,15 +14,15 @@ const sqlite3 = require('sqlite3');
 // Promise-based wrapper for sqlite3
 const { open } = require('sqlite');
 
+// hello
 // Main async function to set up server and database
 async function main() {
   // Open a SQLite database file (creates it if it doesn't exist)
-  const db = open({
+  const db = await open({
     filename: 'chatOne.db',
     driver: sqlite3.Database
   });
 
-  // computer 
   // Create a messages table if it doesnt already exist
   await db.exec(`
     CREATE TABLE IF NOT EXISTS messages (
@@ -96,16 +96,3 @@ async function main() {
 
 // run main function
 main();
-
-
-//anything
-// psdjveroijfeiob
-
-// 
-// today is june 12, 2025
-// Hello My name is karan
-
-
-// matthew isn't able to see the changes
-// hi my name is matthew
-// the time is 10 pm in rhill
