@@ -5,7 +5,7 @@ export class TypingStatus {
   private _userId: string;
   private _roomId: string;
   private _isTyping: boolean;
-  private _lastUpdated: date;
+  private _lastUpdated: Date;
 
   constructor(userId: string, roomId: string) {
     this._userId = userId;
@@ -37,7 +37,7 @@ export class TypingStatus {
     return this._roomId;
   }
 
-  getLastUpdated(): date {
+  getLastUpdated(): Date {
     return this._lastUpdated;
   }
 

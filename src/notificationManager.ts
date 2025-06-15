@@ -20,12 +20,4 @@ class NotificationManager {
             console.log("Can not send notification: Permission denied. Please request permission first.");
         }
     }
-=======
-class notificationManager {
-    private permission: string
-
-    public requestPermission(): void
-
-    public sendNotification(message: Message): void
->>>>>>> 09bf09802d417da25d2fe4882175b5d56e570a6c
 }

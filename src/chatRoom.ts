@@ -42,6 +42,8 @@ export class ChatRoom{
         return this._isPrivate;
     }
 
+    
+
    
 
 
