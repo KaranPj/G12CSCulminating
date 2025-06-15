@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 class Message{
     private _messageId: string
 
@@ -48,4 +49,38 @@ class Message{
 
          return this._content
     }
+=======
+class message {
+    private messageId: string
+
+    protected senderId: string
+
+    private receiverId: string
+
+    private time: Date
+
+    private isPrivate : boolean
+
+    protected roomId: string
+
+    private edited: boolean
+
+    private editedTimestamp: Date
+
+    private deleted: string
+
+    private isEncrypted: boolean
+
+    public getContent(): string
+
+    public setContent(content : string)
+
+    public getTime(): Date
+
+    public formatMessage(): string
+
+    public getSenderId(): string
+
+    public getRoomId(): string
+>>>>>>> 09bf09802d417da25d2fe4882175b5d56e570a6c
 }
