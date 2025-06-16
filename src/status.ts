@@ -3,22 +3,22 @@ class Status{
     private _description : string;
     private _lastUpdated : Date;
 
-    public getCode() : string{
+    public get Code() : string{
       return this._code
     };
-    public setCode(code : string){
+    public set Code(code : string){
         this._code = code;
     };
-    public getDescription() : string{
+    public get Description() : string{
         return this._description
     };
-    public setDescription(description: string){
+    public set Description(description: string){
         this._description = description
     };
-    public getLastUpdate() : Date{
+    public get LastUpdate() : Date{
         return this._lastUpdated
     };
-    public setLastUpdate(lastUpdate : Date){
+    public set LastUpdate(lastUpdate : Date){
         this._lastUpdated = lastUpdate;
     };
 }

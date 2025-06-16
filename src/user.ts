@@ -23,6 +23,7 @@ export class user{
 
     // variable for avatar user chose
     private _avatarUrl : string;
+    
 
     // variable for the last time the user was active
     private _lastActive : Date;

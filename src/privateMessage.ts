@@ -10,22 +10,22 @@ export class PrivateMessage {
   }
 
   // Return the ID of the message recipient
-  public getRecipientId(): string {
+  public get RecipientId(): string {
     return this.recipientId;
   }
 
   // Return true if the message has been read
-  public getReadStatus(): boolean {
+  public get ReadStatus(): boolean {
     return this.isRead;
   }
 
   // Return the time the message was read
-  public getReadTime(): Date {
+  public get ReadTime(): Date {
     return this.readTime;
   }
 
   // Set the read status and update the read time if marked as read
-  public setRead(isRead: boolean): void {
+  public set Read(isRead: boolean) {
     this.isRead = isRead;
 
     if (isRead) {
