@@ -4,11 +4,21 @@ class Status{
     private _lastUpdated : Date;
 
     public getCode() : string{
-
+      return this._code
     };
-    public setCode(code : string){};
-    public getDescription() : string{};
-    public setDescription(description: string){};
-    public getLastUpdate() : date{};
-    public setLastUpdate(date : Date){};
+    public setCode(code : string){
+        this._code = code;
+    };
+    public getDescription() : string{
+        return this._description
+    };
+    public setDescription(description: string){
+        this._description = description
+    };
+    public getLastUpdate() : Date{
+        return this._lastUpdated
+    };
+    public setLastUpdate(lastUpdate : Date){
+        this._lastUpdated = lastUpdate;
+    };
 }

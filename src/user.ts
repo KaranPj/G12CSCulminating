@@ -30,56 +30,56 @@ export class user{
     /**
      * Get the user Id
      */
-    get getUserId() : string{
+    public get UserId() : string{
         return this._userID;
     }
 
     /**
      * Set the user Id
      */
-    set setUserId(id : string) {
+    public set UserId(id : string) {
         id = this._userID;
     }
 
     /**
      * Get the username
      */
-    get getUsername() : string{
+    public get Username() : string{
         return this._username;
     }
 
     /**
      * Set the username
      */
-    set setUsername(name : string) {
+    public set Username(name : string) {
         name = this._username;
     }
 
     /**
      * Get the usernames colour
      */
-    get getUsernameColour() {
+    public get UsernameColour() {
         return this._usernameColour;
     }
 
     /**
      * Set the usernames colour
      */
-    public setUsernameColour(colour : string){
+    public set UsernameColour(colour : string){
         colour = this._usernameColour;
     }
 
     /**
      * Get the password
      */
-    get getPassword() : string {
+    public  get Password() : string {
         return this._passwordHash;
     }
 
     /**
      * Set the password
      */
-    set setPassword(password : string){
+    public  set Password(password : string){
         if (password.length <= 10){
             password = this._passwordHash;
         }
@@ -87,4 +87,5 @@ export class user{
             alert('Not A Valid Password');
         }
     }
+    
 }

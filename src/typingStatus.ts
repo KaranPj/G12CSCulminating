@@ -14,34 +14,34 @@ export class TypingStatus {
     this._lastUpdated = new Date();
   }
 
-  setTyping(isTyping: boolean): void {
+  public set Typing(isTyping: boolean) {
     this._isTyping = isTyping;
     this.updateTime();
   }
 
-  getTypingStatus(): boolean {
+  public get TypingStatus(): boolean {
     return this._isTyping;
   }
 
-  shouldHideTypingIndicator(): boolean {
+  public shouldHideTypingIndicator(): boolean {
     const now = new Date().getTime();
     const diff = now - this._lastUpdated.getTime();
     return diff > 5000; // hide if last updated more than 5 seconds ago
   }
 
-  getUserId(): string {
+  public get UserId(): string {
     return this._userId;
   }
 
-  getRoomId(): string {
+  public get RoomId(): string {
     return this._roomId;
   }
 
-  getLastUpdated(): Date {
+  public get LastUpdated(): Date {
     return this._lastUpdated;
   }
 
-  updateTime(): void {
+  public updateTime(): void {
     this._lastUpdated = new Date();
   }
 }

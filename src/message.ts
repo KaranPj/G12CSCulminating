@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 class Message{
     private _messageId: string
 
@@ -30,23 +30,28 @@ class Message{
 
     }
 
-    public getTime(): Date{
+    public get Time(): Date{
 
          return this._content
     }
 
-    public formatMessage():string{
+    public get formatMessage():string{
 
          return this._content
     }
 
-    public getSenderId(): string{
+    public get SenderId(): string{
 
          return this._content
     }
 
-    public getRoomId(): string{
+    public get RoomId(): string{
 
          return this._content
+    }
+
+    public set RoomId(room : string){
+
+     this._roomId= room
     }
 }

@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 class NotificationManager {
     private _permission: string;
 

@@ -2,8 +2,8 @@ import { user } from './user';
 import { ChatRoom} from './chatRoom';
 
 class chatServer {
-    protected users : user[];
-    private chatRooms : ChatRoom[]
+    protected _users : user[];
+    private _chatRooms : ChatRoom[]
 
     addParticipant(user: user) : void{
 
@@ -20,7 +20,8 @@ class chatServer {
     deleteRoom(roomId : string) : void{
 
     }
-    getRoomById(roomId : string) : ChatRoom{
+    getRoomById(roomId : ChatRoom[]) : ChatRoom{
 
+        return this._chatRooms = roomId
     }
 }

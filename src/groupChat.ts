@@ -14,31 +14,35 @@ class GroupChat {
         this._participants = [];
     }
 
-    public getGroupchatId(): string{
+    public get GroupchatId(): string{
         return this._groupchatId
     }
 
-    public getGroupchatRoom(): string{
+    public get GroupchatRoom(): string{
         return this._groupchatId;
     }
 
-    public getName(): string{
+    public get Name(): string{
         return this._name;
     }
 
-    public setName(name: string){
-        return this._name;
+    public set Name(name: string){
+       this._name = name
     }
 
-    public getParticipantCount(): number{
+    public get ParticipantCount(): number{
         return this._participants.length
     }
 
-    public getDescription(): string{
+    public get Description(): string{
         return this._description;
     }
 
-    public setDescription(description: string){
-        return this._description;
+    public set Description(description: string){
+         this._description = description
     }
+
+    
+    
 }
+
