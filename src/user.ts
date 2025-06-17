@@ -1,92 +1,59 @@
+export class user {
+    private _userID: string;
+    private _username: string;
+    private _usernameColour: string;
+    private _passwordHash: string;
+    private _status: string;
+    private _socketId: string;
+    private _contacts: user[];
+    private _avatarUrl: string;
+    private _lastActive: Date;
 
-export class user{
-    // variable for user idenification
-    private _userID : string;
+    constructor(userID: string, username: string, passwordHash: string) {
+        this._userID = userID;
+        this._username = username;
+        this._passwordHash = passwordHash;
+        this._usernameColour = '#000000';
+        this._status = 'offline';
+        this._socketId = '';
+        this._contacts = [];
+        this._avatarUrl = '';
+        this._lastActive = new Date();
+    }
 
-    // variable for username
-    private _username : string = document.getElementById('username');
-
-    // variable for users colour
-    private _usernameColour : string;
-
-    // variable for users password
-    private _passwordHash : string = document.getElementById('password');
-
-    // variable for user status
-    private _status : string;
-
-    // variable for the id of user - for socket chatting
-    private _socketId : string;
-
-    // variable for list of contacts a user has
-    private _contacts : user[];
-
-    // variable for avatar user chose
-    private _avatarUrl : string;
-    
-
-    // variable for the last time the user was active
-    private _lastActive : Date;
-
-    /**
-     * Get the user Id
-     */
-    public get UserId() : string{
+    public get UserId(): string {
         return this._userID;
     }
 
-    /**
-     * Set the user Id
-     */
-    public set UserId(id : string) {
-        id = this._userID;
+    public set UserId(id: string) {
+        this._userID = id;
     }
 
-    /**
-     * Get the username
-     */
-    public get Username() : string{
+    public get Username(): string {
         return this._username;
     }
 
-    /**
-     * Set the username
-     */
-    public set Username(name : string) {
-        name = this._username;
+    public set Username(name: string) {
+        this._username = name;
     }
 
-    /**
-     * Get the usernames colour
-     */
     public get UsernameColour() {
         return this._usernameColour;
     }
 
-    /**
-     * Set the usernames colour
-     */
-    public set UsernameColour(colour : string){
-        colour = this._usernameColour;
+    public set UsernameColour(colour: string) {
+        this._usernameColour = colour;
     }
 
-    /**
-     * Get the password
-     */
-    public  get Password() : string {
+    public get Password(): string {
         return this._passwordHash;
     }
 
-    /**
-     * Set the password
-     */
-    public  set Password(password : string){
-        if (password.length <= 10){
-            password = this._passwordHash;
-        }
-        else{
-            alert('Not A Valid Password');
+    public set Password(password: string) {
+        if (password.length <= 10) {
+            this._passwordHash = password;
+        } else {
+            throw new Error('Not A Valid Password');
         }
     }
-    
 }
