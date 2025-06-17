@@ -1,27 +1,37 @@
-export class user {
-    private _userID: string;
-    private _username: string;
-    private _usernameColour: string;
-    private _passwordHash: string;
-    private _status: string;
-    private _socketId: string;
-    private _contacts: user[];
-    private _avatarUrl: string;
-    private _lastActive: Date;
 
-    constructor(userID: string, username: string, passwordHash: string) {
-        this._userID = userID;
-        this._username = username;
-        this._passwordHash = passwordHash;
-        this._usernameColour = '#000000';
-        this._status = 'offline';
-        this._socketId = '';
-        this._contacts = [];
-        this._avatarUrl = '';
-        this._lastActive = new Date();
-    }
+export class user{
+    // variable for user idenification
+    private _userID : string;
 
-    public get UserId(): string {
+    // variable for username
+    private _username : string = document.getElementById('username');
+
+    // variable for users colour
+    private _usernameColour : string;
+
+    // variable for users password
+    private _passwordHash : string = document.getElementById('password');
+
+    // variable for user status
+    private _status : string;
+
+    // variable for the id of user - for socket chatting
+    private _socketId : string;
+
+    // variable for list of contacts a user has
+    private _contacts : user[];
+
+    // variable for avatar user chose
+    private _avatarUrl : string;
+    
+
+    // variable for the last time the user was active
+    private _lastActive : Date;
+
+    /**
+     * Get the user Id
+     */
+    public get UserId() : string{
         return this._userID;
     }
 
