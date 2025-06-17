@@ -1,15 +1,15 @@
 import { user } from './user';
 import { ChatRoom } from './chatRoom';
-import { Message} from './message'
-import { SocketManager } from './socketManger';
+import { Message } from './message';
+import { SocketManager } from './socketManager';
 import express from 'express';
 import { createServer } from 'node:http';
 import { join } from 'node:path';
 import { Server as SocketIOServer } from 'socket.io';
-import sqlite3 from 'sqlite3';
+import { sqlite3 } from 'sqlite3';
 import { open, Database as SQLiteDatabase } from 'sqlite';
 
-class chatServer {
+export class chatServer {
     protected _users: user[];
     private _chatRooms: ChatRoom[];
     private _db: SQLiteDatabase | null = null;
@@ -50,8 +50,8 @@ class chatServer {
         this._socketManager = new SocketManager(this._io, this, this._db);
 
         // Serve index.html
-        app.get('/', (req: any, res: { sendFile: (arg0: any) => void; }) => {
-            res.sendFile(join(__dirname, 'index.html'));
+        app.get('/', (req: any, res: { sendFile: (arg0: string) => void; }) => {
+            res.sendFile(join(process.cwd(), 'index.html'));
         });
 
         // Start server
@@ -70,7 +70,7 @@ class chatServer {
         this._users = this._users.filter(u => u.UserId !== userId);
     }
 
-    broadcastMessage(message: Message): void {
+    broadcastMessage message: Message): void {
         if (this._io) {
             this._io.emit('chat message', message.getContent(), message.RoomId);
         }

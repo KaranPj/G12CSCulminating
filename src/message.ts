@@ -1,4 +1,4 @@
-class Message {
+export class Message {
     private _messageId: string;
     protected _senderId: string;
     private _receiverId: string;

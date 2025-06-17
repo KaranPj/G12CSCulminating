@@ -42,6 +42,4 @@ export class ChatRoom {
     public getIsPrivate(): boolean {
         return this._isPrivate;
     }
-
-    
 }
