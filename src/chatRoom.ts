@@ -41,13 +41,6 @@ export class ChatRoom{
     public getIsPrivate() : boolean {
         return this._isPrivate;
     }
-
-    
-
-   
-// Hi this is matthew doing this
-
-// Hi this is Karan doing this
-
+  
 
 }
