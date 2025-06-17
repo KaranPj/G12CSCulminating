@@ -11,6 +11,17 @@ export class ChatRoom {
     private _maxNumberParticipant: number = 50;
     private _isPrivate: boolean;
 
+    constructor(_roomId: string, _roomName: string, _category: string, _tags: string[], _participants: user[], _messages: Message[],  _maxNumberParticipant: number = 50, _isPrivate: boolean) {
+        this._roomId = _roomId;
+        this._roomName = _roomName;
+        this._category = _category
+        this._tags = _tags
+        this._participants = _participants
+        this._messages = _messages
+        this._maxNumberParticipant = _maxNumberParticipant
+        this._isPrivate = _isPrivate
+    }
+
     public getRoomId(): string {
         return this._roomId;
     }

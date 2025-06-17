@@ -70,7 +70,7 @@ export class chatServer {
         this._users = this._users.filter(u => u.UserId !== userId);
     }
 
-    broadcastMessage message: Message): void {
+    broadcastMessage (message: Message): void {
         if (this._io) {
             this._io.emit('chat message', message.getContent(), message.RoomId);
         }

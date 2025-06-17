@@ -11,6 +11,8 @@ export class Message {
     private _deleted: boolean;
     private _isEncrypted: boolean;
 
+    constructor()
+
     public getContent(): string {
         return this._content;
     }
