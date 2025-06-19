@@ -24,6 +24,10 @@ class GroupChat {
     }
 
     public set Name(name: string) {
+        console.log("The current group chat name is: " + this._name);
+        if (this._name.length < 3) {
+            console.warn("Name is too short!");
+        }
         this._name = name;
     }
 
@@ -32,6 +36,10 @@ class GroupChat {
     }
 
     public get Description(): string {
+        console.log("Group chat description: " + this._description);
+        if (!this._description || this._description.length === 0) {
+            console.log("Description is empty.");
+        }
         return this._description;
     }
 
