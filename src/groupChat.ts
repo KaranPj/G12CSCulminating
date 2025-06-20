@@ -45,6 +45,5 @@ class GroupChat {
 
     public set Description(description: string) {
         this._description = description;
-        //hello this is matthew
     }
 }    
