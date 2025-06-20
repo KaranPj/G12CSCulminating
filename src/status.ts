@@ -1,4 +1,4 @@
-class Status {
+export class Status {
     private _code: string;
     private _description: string;
     private _lastUpdated: Date;

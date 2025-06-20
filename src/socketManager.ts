@@ -5,7 +5,7 @@ import { chatServer } from './chatServer';
 import { Server as SocketIOServer, Socket } from 'socket.io';
 import { Database as SQLiteDatabase } from 'sqlite';
 
-class SocketManager {
+export class SocketManager {
     private socket: SocketIOServer;
 
     constructor(io: SocketIOServer, chatServer: chatServer, db: SQLiteDatabase) {
