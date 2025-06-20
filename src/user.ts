@@ -4,13 +4,13 @@ export class user{
     private _userId : string;
 
     // variable for username
-    private _userName : string = document.getElementById('username');
+    private _userName : string;
 
     // variable for users colour
     private _usernameColour : string;
 
     // variable for users password
-    private _passwordHash : string = document.getElementById('password');
+    private _passwordHash : string;
 
     // variable for user status
     private _status : string;
