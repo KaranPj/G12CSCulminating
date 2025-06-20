@@ -3,12 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chat Application</title>
+    <title>Socket.IO Chat</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.5/socket.io.min.js"></script>
+    <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
     <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            margin: 0;
+            padding-bottom: 3rem;
+        }
         #chat-container {
-            height: 80vh;
+            height: 70vh;
             overflow-y: auto;
             scroll-behavior: smooth;
         }
@@ -20,27 +25,100 @@
             font-size: 0.75rem;
             color: #6b7280;
         }
+        #form {
+            background: rgba(0, 0, 0, 0.15);
+            padding: 0.25rem;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            display: flex;
+            height: 3rem;
+            box-sizing: border-box;
+            backdrop-filter: blur(10px);
+        }
+        #input {
+            border: none;
+            padding: 0 1rem;
+            flex-grow: 1;
+            border-radius: 2rem;
+            margin: 0.25rem;
+        }
+        #input:focus {
+            outline: none;
+        }
+        #form > button {
+            background: #333;
+            border: none;
+            padding: 0 1rem;
+            margin: 0.25rem;
+            border-radius: 3px;
+            color: #fff;
+        }
+        #messages {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+        }
+        #messages > li {
+            padding: 0.5rem 1rem;
+        }
+        #messages > li:nth-child(odd) {
+            background: #efefef;
+        }
+        .content-div {
+            display: none;
+        }
+        .content-div.active {
+            display: block;
+        }
     </style>
 </head>
-<body class="bg-gray-100 flex items-center justify-center h-screen">
+<body class="bg-gray-100 flex items-center justify-center h-screen" onload="start()">
     <div class="w-full max-w-2xl bg-white rounded-lg shadow-lg p-6">
-        <h1 class="text-2xl font-bold text-center text-gray-800 mb-4">Chat Room</h1>
-        <div id="chat-container" class="bg-gray-50 p-4 rounded-lg mb-4 border border-gray-200">
-            <div id="messages" class="flex flex-col space-y-2"></div>
+        <!-- Welcome Screen -->
+        <div id="welcome" class="content-div active">
+            <h1 class="text-2xl font-bold text-center text-gray-800 mb-4">Welcome to the Chatroom!</h1>
+            <div class="flex flex-col space-y-2">
+                <button onclick="showDiv('create-account')" class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600">I don't have an account Create Account</button>
+                <button onclick="showDiv('login')" class="px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600">I already have an account! Sign in</button>
+            </div>
         </div>
-        <div class="flex space-x-2">
-            <input
-                id="message-input"
-                type="text"
-                placeholder="Type a message..."
-                class="flex-1 p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-            >
-            <button
-                id="send-button"
-                class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
-            >
-                Send
-            </button>
+
+        <!-- Create Account Screen -->
+        <div id="create-account" class="content-div">
+            <h2 class="text-xl font-semibold text-center text-gray-800 mb-4">Create Account</h2>
+            <div class="flex flex-col space-y-4">
+                <label for="create-username" class="text-gray-700">Please enter a unique username:</label>
+                <input id="create-username" type="text" class="p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                <label for="create-password" class="text-gray-700">Please enter a password (0-10 characters):</label>
+                <input id="create-password" type="password" class="p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                <button onclick="enterUserInfo()" class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600">Create Account</button>
+            </div>
+        </div>
+
+        <!-- Login Screen -->
+        <div id="login" class="content-div">
+            <h2 class="text-xl font-semibold text-center text-gray-800 mb-4">Login</h2>
+            <div class="flex flex-col space-y-4">
+                <label for="login-username" class="text-gray-700">Username:</label>
+                <input id="login-username" type="text" class="p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                <label for="login-password" class="text-gray-700">Password:</label>
+                <input id="login-password" type="password" class="p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                <button onclick="login()" class="px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600">Login</button>
+            </div>
+        </div>
+
+        <!-- Chat Screen -->
+        <div id="chat" class="content-div">
+            <h1 class="text-2xl font-bold text-center text-gray-800 mb-4">Chat Room</h1>
+            <div id="chat-container" class="bg-gray-50 p-4 rounded-lg mb-4 border border-gray-200">
+                <ul id="messages" class="flex flex-col space-y-2"></ul>
+            </div>
+            <form id="form" action="">
+                <input id="input" autocomplete="off" placeholder="Type a message..." />
+                <button>Send</button>
+            </form>
         </div>
     </div>
 
@@ -48,63 +126,83 @@
         const socket = io('http://localhost:3000', {
             transports: ['websocket'],
             reconnection: true,
-            connectionStateRecovery: {}
+            connectionStateRecovery: {},
+            auth: {
+                serverOffset: 0
+            }
         });
 
         const messagesContainer = document.getElementById('messages');
-        const messageInput = document.getElementById('message-input');
-        const sendButton = document.getElementById('send-button');
+        const messageInput = document.getElementById('input');
+        const form = document.getElementById('form');
         const chatContainer = document.getElementById('chat-container');
 
-        // Generate a simple user ID for demo purposes
-        const userId = 'user_' + Math.random().toString(36).substr(2, 9);
+        // Generate a temporary user ID for demo purposes
+        let userId = localStorage.getItem('userId') || 'user_' + Math.random().toString(36).substr(2, 9);
+        localStorage.setItem('userId', userId);
 
-        // Handle receiving messages
-        socket.on('chat message', (msg, messageId) => {
-            const messageElement = document.createElement('div');
-            messageElement.classList.add(
-                'message-bubble',
-                'p-3',
-                'rounded-lg',
-                'mb-2',
-                socket.id === messageId ? 'bg-blue-100 ml-auto' : 'bg-gray-200 mr-auto'
-            );
-            const contentElement = document.createElement('p');
-            contentElement.textContent = msg;
-            const timestampElement = document.createElement('p');
-            timestampElement.classList.add('message-timestamp');
-            timestampElement.textContent = new Date().toLocaleTimeString();
-            messageElement.appendChild(contentElement);
-            messageElement.appendChild(timestampElement);
-            messagesContainer.appendChild(messageElement);
-            chatContainer.scrollTop = chatContainer.scrollHeight;
-        });
+        function start() {
+            showDiv('welcome');
+        }
 
-        // Handle sending messages
-        function sendMessage() {
-            const message = messageInput.value.trim();
-            if (message) {
-                const clientOffset = `${socket.id}-${Date.now()}`;
-                socket.emit('chat message', message, clientOffset, () => {
-                    messageInput.value = '';
-                });
+        function showDiv(divId) {
+            document.querySelectorAll('.content-div').forEach(div => div.classList.remove('active'));
+            document.getElementById(divId).classList.add('active');
+        }
+
+        function enterUserInfo() {
+            const username = document.getElementById('create-username').value.trim();
+            const password = document.getElementById('create-password').value.trim();
+            if (username && password.length <= 10) {
+                // Simulate account creation (actual backend integration needed)
+                localStorage.setItem('username', username);
+                alert('Account created! Please login.');
+                showDiv('login');
+            } else {
+                alert('Invalid username or password (must be 0-10 characters).');
             }
         }
 
-        // Send message on button click
-        sendButton.addEventListener('click', sendMessage);
-
-        // Send message on Enter key press
-        messageInput.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') {
-                sendMessage();
+        function login() {
+            const username = document.getElementById('login-username').value.trim();
+            const password = document.getElementById('login-password').value.trim();
+            if (username && password) {
+                // Simulate login (actual backend integration needed)
+                if (username === localStorage.getItem('username')) {
+                    showDiv('chat');
+                } else {
+                    alert('Invalid credentials.');
+                }
+            } else {
+                alert('Please enter username and password.');
             }
+        }
+
+        // Handle form submission
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            if (messageInput.value) {
+                const clientOffset = `${socket.id}-${Date.now()}`;
+                socket.emit('chat message', messageInput.value, clientOffset, () => {
+                    messageInput.value = '';
+                });
+            }
+        });
+
+        // Handle receiving messages
+        socket.on('chat message', (msg, messageId) => {
+            const item = document.createElement('li');
+            item.textContent = `${localStorage.getItem('username') || 'User'}: ${msg}`;
+            item.classList.add('message-bubble', 'p-3', 'rounded-lg', 'mb-2');
+            messagesContainer.appendChild(item);
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+            socket.auth.serverOffset = messageId;
         });
 
         // Handle connection errors
         socket.on('connect_error', (error) => {
             console.error('Connection error:', error);
-            const errorElement = document.createElement('div');
+            const errorElement = document.createElement('li');
             errorElement.classList.add('text-red-500', 'text-center', 'p-2');
             errorElement.textContent = 'Failed to connect to server. Retrying...';
             messagesContainer.appendChild(errorElement);
