@@ -11,7 +11,31 @@ export class Message {
     private _deleted: boolean;
     private _isEncrypted: boolean;
 
-    constructor()
+    constructor(
+        _messageId: string,
+        _receiverId: string,
+        _content: string,
+        _time: Date = new Date(),
+        _isPrivate: boolean = false,
+        _edited: boolean = false,
+        _roomId: string,
+        _editedTimestamp: Date = new Date(0),
+        _senderId: string,
+        _deleted: boolean = false,
+        _isEncrypted: boolean = false
+    ) {
+        this._messageId = _messageId;
+        this._receiverId = _receiverId;
+        this._content = _content;
+        this._time = _time;
+        this._isPrivate = _isPrivate;
+        this._edited = _edited;
+        this._roomId = _roomId
+        this._editedTimestamp = _editedTimestamp;
+        this._senderId = _senderId
+        this._deleted = _deleted;
+        this._isEncrypted = _isEncrypted;
+    }
 
     public getContent(): string {
         return this._content;
