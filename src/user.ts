@@ -1,10 +1,10 @@
 
 export class user{
     // variable for user idenification
-    private _userID : string;
+    private _userId : string;
 
     // variable for username
-    private _username : string = document.getElementById('username');
+    private _userName : string = document.getElementById('username');
 
     // variable for users colour
     private _usernameColour : string;
@@ -28,23 +28,43 @@ export class user{
     // variable for the last time the user was active
     private _lastActive : Date;
 
+    constructor(_userId: string,
+        _userName: string,
+        _userNameColour: string,
+        _passwordHash: string,
+        _status: string, 
+        _socketId: string, 
+        _contacts: user[], 
+        _avatarUrl: string, 
+        _lastActive: Date){
+        this._userId = _userId;
+        this._userName = _userName;
+        this._usernameColour = _userNameColour;
+        this._passwordHash = _passwordHash;
+        this._status = _status;
+        this._socketId = _socketId;
+        this._contacts = _contacts;
+        this._avatarUrl = _avatarUrl;
+        this._lastActive = _lastActive;
+    }
+
     /**
      * Get the user Id
      */
     public get UserId() : string{
-        return this._userID;
+        return this._userId;
     }
 
     public set UserId(id: string) {
-        this._userID = id;
+        this._userId = id;
     }
 
     public get Username(): string {
-        return this._username;
+        return this._userName;
     }
 
     public set Username(name: string) {
-        this._username = name;
+        this._userName = name;
     }
 
     public get UsernameColour() {

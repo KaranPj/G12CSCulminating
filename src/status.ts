@@ -3,6 +3,12 @@ class Status {
     private _description: string;
     private _lastUpdated: Date;
 
+    constructor(_code:string, _description: string, _lastUpdated: Date){
+        this._code = _code;
+        this._description = _description;
+        this._lastUpdated = _lastUpdated
+    }
+
     public get Code(): string {
         return this._code;
     }
