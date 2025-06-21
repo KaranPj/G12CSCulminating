@@ -122,8 +122,10 @@
     </div>
     <script>
         const socket = io('http://localhost:3000', {
-            transports: ['websocket'],
+            transports: ['websocket', 'polling'], // Added polling as a fallback
             reconnection: true,
+            reconnectionAttempts: 5, // Limit reconnection attempts
+            reconnectionDelay: 1000, // Delay between attempts
             connectionStateRecovery: {},
             auth: {
                 serverOffset: 0
@@ -155,8 +157,7 @@
             const password = document.getElementById('create-password').value.trim();
 
             if (username && password.length >= 10) {
-                // Simulate account creation (actual backend integration needed)
-                // localStorage.setItem('username', username);
+                // Simulate account creation
                 usernames.push(username);
                 passwords.push(password);
                 alert('Account created! Please login.');
@@ -166,37 +167,39 @@
             }
         }
 
-        function login(){
+        function login() {
             const username = document.getElementById('login-username').value.trim();
             const password = document.getElementById('login-password').value.trim();
 
-        // Use binary search to check if username and password exist
-        function binarySearch(array, item, startIndex, endIndex = array.length - 1) {
-            if (startIndex > endIndex) {
-                return -1;
+            // Use binary search to check if username and password exist
+            function binarySearch(array, item, startIndex, endIndex = array.length - 1) {
+                if (startIndex > endIndex) {
+                    return -1;
+                }
+                let midIndex = Math.floor((startIndex + endIndex) / 2);
+                if (array[midIndex] === item) {
+                    return midIndex;
+                }
+                if (item < array[midIndex]) {
+                    return binarySearch(array, item, startIndex, midIndex - 1);
+                } else {
+                    return binarySearch(array, item, midIndex + 1, endIndex);
+                }
             }
-            let midIndex = Math.floor((startIndex + endIndex) / 2);
-            if (array[midIndex] === item) {
-                return midIndex;
-            }
-            if (item < array[midIndex]) {
-                return binarySearch(array, item, startIndex, midIndex - 1);
+
+            const usernameIndex = binarySearch(usernames, username, 0);
+            const passwordIndex = binarySearch(passwords, password, 0);
+
+            if (usernameIndex !== -1 && passwordIndex !== -1 && usernameIndex === passwordIndex) {
+                showDiv('chat');
+                localStorage.setItem('username', username);
+                socket.auth.username = username;
+                socket.auth.password = password;
+                socket.connect(); // Ensure connection attempt
             } else {
-                return binarySearch(array, item, midIndex + 1, endIndex);
+                alert('Incorrect Username or Password. Try it again.');
             }
         }
-
-        const usernameIndex = binarySearch(usernames, username, 0);
-        const passwordIndex = binarySearch(passwords, password, 0);
-
-        if (usernameIndex !== -1 && passwordIndex !== -1) {
-            showDiv('chat');
-            localStorage.setItem('username', username);
-            socket.auth.username = username;
-            socket.auth.password = password;
-            socket.connect();
-        }
-       }
 
         // Handle form submission
         form.addEventListener('submit', (e) => {
@@ -226,12 +229,16 @@
             errorElement.classList.add('text-red-500', 'text-center', 'p-2');
             errorElement.textContent = 'Failed to connect to server. Retrying...';
             messagesContainer.appendChild(errorElement);
+            // Optional: Log to console for debugging
+            console.log('Connection failed. Ensure server is running at http://localhost:3000');
         });
 
         // Handle successful reconnection
         socket.on('connect', () => {
             messagesContainer.querySelectorAll('.text-red-500').forEach(el => el.remove());
+            console.log('Connected to server');
         });
     </script>
+    
   </body>
 </html>
