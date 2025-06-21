@@ -7,7 +7,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
     <style>
-        body {
+        body { 
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
             margin: 0;
             padding-bottom: 3rem;
@@ -73,8 +73,7 @@
             display: block;
         }
     </style>
-</head>
-<body class="bg-gray-100 flex items-center justify-center h-screen" onload="start()">
+  <body class="bg-gray-100 flex items-center justify-center h-screen" onload="start()">
     <div class="w-full max-w-2xl bg-white rounded-lg shadow-lg p-6">
         <!-- Welcome Screen -->
         <div id="welcome" class="content-div active">
@@ -121,7 +120,6 @@
             </form>
         </div>
     </div>
-
     <script>
         const socket = io('http://localhost:3000', {
             transports: ['websocket'],
@@ -136,6 +134,8 @@
         const messageInput = document.getElementById('input');
         const form = document.getElementById('form');
         const chatContainer = document.getElementById('chat-container');
+        const usernames = new Array();
+        const passwords = new Array();
 
         // Generate a temporary user ID for demo purposes
         let userId = localStorage.getItem('userId') || 'user_' + Math.random().toString(36).substr(2, 9);
@@ -153,9 +153,12 @@
         function enterUserInfo() {
             const username = document.getElementById('create-username').value.trim();
             const password = document.getElementById('create-password').value.trim();
-            if (username && password.length <= 10) {
+
+            if (username && password.length >= 10) {
                 // Simulate account creation (actual backend integration needed)
-                localStorage.setItem('username', username);
+                // localStorage.setItem('username', username);
+                usernames.push(username);
+                passwords.push(password);
                 alert('Account created! Please login.');
                 showDiv('login');
             } else {
@@ -163,20 +166,37 @@
             }
         }
 
-        function login() {
+        function login(){
             const username = document.getElementById('login-username').value.trim();
             const password = document.getElementById('login-password').value.trim();
-            if (username && password) {
-                // Simulate login (actual backend integration needed)
-                if (username === localStorage.getItem('username')) {
-                    showDiv('chat');
-                } else {
-                    alert('Invalid credentials.');
-                }
+
+        // Use binary search to check if username and password exist
+        function binarySearch(array, item, startIndex, endIndex = array.length - 1) {
+            if (startIndex > endIndex) {
+                return -1;
+            }
+            let midIndex = Math.floor((startIndex + endIndex) / 2);
+            if (array[midIndex] === item) {
+                return midIndex;
+            }
+            if (item < array[midIndex]) {
+                return binarySearch(array, item, startIndex, midIndex - 1);
             } else {
-                alert('Please enter username and password.');
+                return binarySearch(array, item, midIndex + 1, endIndex);
             }
         }
+
+        const usernameIndex = binarySearch(usernames, username, 0);
+        const passwordIndex = binarySearch(passwords, password, 0);
+
+        if (usernameIndex !== -1 && passwordIndex !== -1) {
+            showDiv('chat');
+            localStorage.setItem('username', username);
+            socket.auth.username = username;
+            socket.auth.password = password;
+            socket.connect();
+        }
+       }
 
         // Handle form submission
         form.addEventListener('submit', (e) => {
@@ -213,5 +233,5 @@
             messagesContainer.querySelectorAll('.text-red-500').forEach(el => el.remove());
         });
     </script>
-</body>
+  </body>
 </html>
