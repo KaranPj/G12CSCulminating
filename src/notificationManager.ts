@@ -1,4 +1,4 @@
-import { Message } from "message";
+import { Message } from "./message";
 
 class NotificationManager {
     private _permission: string;
