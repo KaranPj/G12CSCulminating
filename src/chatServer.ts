@@ -6,7 +6,7 @@ import express from 'express';
 import { createServer } from 'node:http';
 import { join } from 'node:path';
 import { Server as SocketIOServer } from 'socket.io';
-import { sqlite3 } from 'sqlite3';
+import sqlite3 from 'sqlite3'; // Default import for the sqlite3 module
 import { open, Database as SQLiteDatabase } from 'sqlite';
 
 export class chatServer {
@@ -26,8 +26,12 @@ export class chatServer {
         // Initialize database
         this._db = await open({
             filename: 'chatOne.db',
-            driver: sqlite3.Database
+            driver: sqlite3 // Pass the sqlite3 module as the driver
         });
+
+        if (!this._db) {
+            throw new Error('Failed to open database');
+        }
 
         await this._db.exec(`
             CREATE TABLE IF NOT EXISTS messages (
@@ -47,10 +51,10 @@ export class chatServer {
         });
 
         // Initialize SocketManager
-        this._socketManager = new SocketManager(this._io, this, this._db);
+        this._socketManager = new SocketManager(this._io!, this, this._db!); // Use non-null assertion if types are correct
 
         // Serve index.html
-        app.get('/', (req: any, res: { sendFile: (arg0: string) => void; }) => {
+        app.get('/', (req: any, res: { sendFile: (arg0: string) => void }) => {
             res.sendFile(join(process.cwd(), 'index.html'));
         });
 
@@ -70,7 +74,7 @@ export class chatServer {
         this._users = this._users.filter(u => u.UserId !== userId);
     }
 
-    broadcastMessage (message: Message): void {
+    broadcastMessage(message: Message): void {
         if (this._io) {
             this._io.emit('chat message', message.getContent(), message.RoomId);
         }
